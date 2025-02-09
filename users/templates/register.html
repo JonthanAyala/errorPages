@@ -77,8 +77,14 @@
           });
           return false;
         }
-
-
+        
+        if (password1 !== password2) {
+          Swal.fire({
+            icon: "error",
+            title: "Error",
+            text: "Las contraseñas no coinciden.",
+          });
+          return false;
         }
         return true;
       }
