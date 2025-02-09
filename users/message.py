@@ -1,4 +1,5 @@
-class Message:
+
+class message:
     def __init__(self, type: str, message: str, code: int, img: str = None):
         self.type = type
         self.message = message
