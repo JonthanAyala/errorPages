@@ -1,17 +1,17 @@
-import json
 from django.shortcuts import render, redirect
-from django.contrib.auth import login, authenticate, logout
+from django.contrib.auth import login, logout
 from .forms import CustomUserCreationForm, CustomUserLoginForm
 from django.contrib.auth.decorators import login_required
-from .message import Message
+import json
+from .message import message
 
 def register_view(request):
     if request.method == 'POST':
         form = CustomUserCreationForm(request.POST)
         if form.is_valid():
             user = form.save()
-            login(request, user)  # Iniciar sesión después del registro
-            return redirect('home')  # Redirigir a la página principal
+            login(request, user)
+            return redirect('home')  
     else:
         form = CustomUserCreationForm()
     return render(request, 'register.html', {'form': form})
@@ -29,15 +29,12 @@ def login_view(request):
 
 def logout_view(request):
     logout(request)
-
-    message = Message(
-        type="info",
-        message="Se ha cerrado la sesión exitosamente",
-        code=200,
-        img="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR8MIbugIhZBykSmQcR0QPcfnPUBOZQ6bm35w&s"
+    message_obj = message(
+        "info", "Se ha cerrado la sesion exitosamente", 200, "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR8MIbugIhZBykSmQcR0QPcfnPUBOZQ6bm35w&s"  # Imagen
     )
-    return render(request, "login.html", {"message": json.dumps(message.to_dict())})
-
+    message_json = json.dumps(message_obj.to_dict())
+    return render(request, "login.html", {"message": message_json})
+    
 @login_required
 def home_view(request):
     return render(request, 'home.html')
