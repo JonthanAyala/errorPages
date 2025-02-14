@@ -33,9 +33,7 @@
 
     <script>
         document.addEventListener("DOMContentLoaded", function() {
-            const messageJson = '{{ message|safe }}';
-            let message = null;
-        
+            const message = '{{ message|safe }}';
             try {
                 message = JSON.parse(messageJson);
             } catch (error) {
